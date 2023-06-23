@@ -10,6 +10,7 @@ import {
   Checkbox,
   Fab,
   FormControlLabel,
+  Link,
   TextField,
   Tooltip,
   Typography,
@@ -19,6 +20,8 @@ import useRecipeStore from "../../state/recipeState";
 import { Delete, ExpandMore, Favorite } from "@mui/icons-material";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { CardHeader } from "../../components/CardHeader";
+import AdBox from "../../components/AdBox";
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -35,13 +38,25 @@ export const HomePage = () => {
     setRecipeBook,
   } = useRecipeStore();
   const [food, setFood] = useState("");
+  const myAds = (
+    <iframe
+      src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=40&l=ur1&category=kitchen&banner=0496AN2501X6E3T9WK02&f=ifr&linkID=1e6e377c3dec6dcec5ea026b63f14178&t=kylejoeckel-20&tracking_id=kylejoeckel-20"
+      width="120"
+      height="60"
+      scrolling="no"
+      border="0"
+      marginwidth="0"
+      style="border:none;"
+      frameborder="0"
+      sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"
+    ></iframe>
+  );
 
   const handleGetRecipe = async () => {
     await getRecipe(food);
-    if (!error) navigate("/recipes");
+    navigate("/recipes");
   };
   let i = 0;
-  const open_txt = ` What are we going to make today?`;
   const speed = 80;
 
   function typeWriter(txt) {
@@ -68,37 +83,20 @@ export const HomePage = () => {
 
     clearRecipe();
     setLoading(false);
-    // document.getElementById("welcomeText").innerHTML = "";
-    // typeWriter(open_txt);
   }, []);
   return (
     <div className="chefAiContainer">
       <div className="chefAiCard" style={{ marginTop: "80px" }}>
-        <div className="chefAICardHeader">
-          <h2>
-            <Typography
-              variant="h2"
-              component="div"
-              sx={{
-                color: "white",
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              Chef
-              <span style={{ fontWeight: "800", color: "#6B5974" }}>AI</span>
-            </Typography>
-            &nbsp;home{" "}
-          </h2>
-        </div>
+        <CardHeader title={"home"} />
         <div className="chefAiCardContent">
-          {/* <p id="welcomeText"></p> */}
-          {/* <p id="thoughtsBlock"></p> */}
-          {/* <p>
-            Enter a dish name below. Customize it by including ingredients you
-            dont want or have on hand. Ex. "Lasagna made with no ricotta cheese"{" "}
-          </p> */}
-
+          <p>
+            Enter a dish name below and customize it by including ingredients
+            you dont want or have on hand. Please be patient, some requests take
+            longer than others. Thanks for using ChefAI.recipes!
+            <br />
+            <br /> Ex. "Lasagna made with no ricotta cheese"
+            <br />
+          </p>
           <div
             style={{ display: "flex", flexDirection: "column", width: "100%" }}
           >
@@ -140,14 +138,19 @@ export const HomePage = () => {
               Get Recipe
             </LoadingButton>
           </div>
+          <AdBox />
 
           {currentUser?.credits <= 0 && (
             <p>
               You're out of credits for now... check back soon to purchase more!
             </p>
           )}
-          {error && <p style={{ color: "red" }}>Sorry, {error}</p>}
-          <h3>ChefAi.Recipes: The Ultimate Recipe Management Platform</h3>
+          {error && (
+            <p style={{ color: "red" }}>
+              Sorry, something's not right, try again...
+            </p>
+          )}
+          {/* <h3>ChefAi.Recipes: The Ultimate Recipe Management Platform</h3>
 
           <p>
             Cooking can be a messy business. From searching for recipes to
@@ -195,7 +198,7 @@ export const HomePage = () => {
             start enjoying the benefits of a more organized and efficient
             cooking experience! With ChefAi.Recipes, you'll never have to worry
             about messy recipe management again.
-          </p>
+          </p> */}
           <br />
           <Accordion elevation={0}>
             <AccordionSummary

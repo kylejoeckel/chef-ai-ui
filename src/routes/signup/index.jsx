@@ -13,8 +13,9 @@ import { useState } from "react";
 import "../../Main.css";
 import useUserStore from "../../state/userState";
 import { useNavigate } from "react-router-dom";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { PolicyOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
+import { CardHeader } from "../../components/CardHeader";
 
 export const SignUp = () => {
   const [pwrd, setPwrd] = useState(undefined);
@@ -49,28 +50,12 @@ export const SignUp = () => {
   return (
     <div className="chefAiContainer" style={{ paddingTop: "80px" }}>
       <div className="chefAiCard">
-        <div className="chefAICardHeader">
-          <h2>
-            <Typography
-              variant="h2"
-              component="div"
-              sx={{
-                color: "white",
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              Chef
-              <span style={{ fontWeight: "800", color: "#6B5974" }}>AI</span>
-            </Typography>
-            &nbsp;create account{" "}
-          </h2>
-        </div>
+        <CardHeader title={"sign up"} />
         <div className="chefAiCardContent">
           <div className="chefAiCredentials">
-            <h5>Why create an account?</h5>
+            <h4>Why create an account?</h4>
 
-            <p style={{ fontSize: "smaller" }}>
+            <p>
               Creating an account with Chef AI Recipes allows you to save all
               your favorite recipes in one convenient location, making it easy
               to access and reference them later. You can access your saved
@@ -174,6 +159,21 @@ export const SignUp = () => {
               Already have an account?
               <br />
               Log In here
+            </Link>
+            <Link
+              href="/policies"
+              style={{
+                width: "100%",
+                margin: "12px auto",
+                textAlign: "center",
+                fontSize: "smaller",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              Privacy Policies & Disclosures
+              <PolicyOutlined />
             </Link>
             <br />
           </div>

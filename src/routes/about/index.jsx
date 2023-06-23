@@ -1,4 +1,5 @@
 import { Button, Typography, Avatar } from "@mui/material";
+import { CardHeader } from "../../components/CardHeader";
 import "../../Main.css";
 
 export const AboutChefAi = () => {
@@ -8,23 +9,7 @@ export const AboutChefAi = () => {
         className="chefAiCard"
         style={{ marginTop: "80px", textAlign: "left" }}
       >
-        <div className="chefAICardHeader">
-          <h2>
-            <Typography
-              variant="h2"
-              component="div"
-              sx={{
-                color: "white",
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              Chef
-              <span style={{ fontWeight: "800", color: "#6B5974" }}>AI</span>
-            </Typography>
-            &nbsp;about{" "}
-          </h2>
-        </div>
+        <CardHeader title="about" />
         <div className="chefAiCardContent">
           <p>
             Welcome to Chef AI Recipes, the home of innovative and exciting
@@ -75,7 +60,7 @@ export const AboutChefAi = () => {
             />
             <Button
               href={"/"}
-              sx={{ backgroundColor: "#6B5974" }}
+              sx={{ backgroundColor: "#BC4846" }}
               variant="contained"
             >
               Start Cooking!

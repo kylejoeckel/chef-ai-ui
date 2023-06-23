@@ -6,7 +6,6 @@ import {
   Link,
   OutlinedInput,
   TextField,
-  Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useEffect } from "react";
@@ -15,6 +14,8 @@ import "../../Main.css";
 import useUserStore from "../../state/userState";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { CardHeader } from "../../components/CardHeader";
+import AdBox from "../../components/AdBox";
 
 export const LogIn = () => {
   const [pwrd, setPwrd] = useState(undefined);
@@ -36,23 +37,7 @@ export const LogIn = () => {
   return (
     <div className="chefAiContainer">
       <div className="chefAiCard">
-        <div className="chefAICardHeader">
-          <h2>
-            <Typography
-              variant="h2"
-              component="div"
-              sx={{
-                color: "white",
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              Chef
-              <span style={{ fontWeight: "800", color: "#6B5974" }}>AI</span>
-            </Typography>
-            &nbsp;login{" "}
-          </h2>
-        </div>
+        <CardHeader title={"log-in"} />
         <div className="chefAiCardContent">
           <div className="chefAiCredentials">
             <TextField
@@ -107,6 +92,7 @@ export const LogIn = () => {
               {" "}
               Log In
             </LoadingButton>
+            <AdBox />
             <br />
             <Link
               style={{

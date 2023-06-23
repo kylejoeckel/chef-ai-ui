@@ -1,26 +1,31 @@
 // import { Delete } from "@mui/icons-material";
 import {
   Book,
-  Bookmark,
   BookmarkAdd,
-  Save,
+  BookmarkAddOutlined,
+  SavedSearch,
   Search,
+  Timelapse,
   Warning,
 } from "@mui/icons-material";
 import {
-  Button,
+  Link,
   Checkbox,
   FormControlLabel,
   IconButton,
+  InputBase,
   Menu,
   MenuItem,
+  Paper,
+  TextField,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import { useCallback } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import AdBox from "../../components/AdBox";
+import { CardHeader } from "../../components/CardHeader";
 import useRecipeStore from "../../state/recipeState";
 import useUserStore from "../../state/userState";
 
@@ -29,12 +34,16 @@ export const Recipes = () => {
   const {
     currentRecipe,
     recipeBook,
+    getRecipe,
     setCurrentRecipe,
     addToRecipeBook,
+    loading,
     error,
   } = useRecipeStore();
   const { loggedIn } = useUserStore();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [search, setSearch] = useState(null);
+  const [recipeExists, setRecipeExists] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -43,8 +52,8 @@ export const Recipes = () => {
     setAnchorEl(null);
   };
   const checkAuth = useCallback(() => {
-    if (!loggedIn) {
-      navigate("/log-in");
+    if (error) {
+      navigate("/");
     }
   }, [loggedIn, navigate]);
   const assignRecipe = useCallback(() => {
@@ -52,48 +61,62 @@ export const Recipes = () => {
       setCurrentRecipe(recipeBook[0]);
     }
   }, [recipeBook, currentRecipe]);
+
+  const checkExists = useCallback(() => {
+    const titleArray = recipeBook.map((recipe) => {
+      if (currentRecipe?.title === recipe?.title) return true;
+      return false;
+    });
+    return titleArray.includes(true);
+  });
   useEffect(() => {
     assignRecipe();
-    // checkAuth();
-  }, []);
+    checkAuth();
+    setRecipeExists(checkExists());
+  }, [recipeBook]);
   return (
     <div className="chefAiContainer">
       {
         <div className="chefAiCard" style={{ marginTop: "80px" }}>
-          <div className="chefAiIngredientsHeader">
-            <div>
-              <Typography
-                variant="h4"
-                component="div"
-                sx={{
-                  color: "white",
-                  width: "100%",
-                  textAlign: "center",
-                }}
-              >
-                Recipe
-                <span style={{ fontWeight: "800", color: "#6B5974" }}>
-                  Book
-                </span>
-              </Typography>
-              <h2>{currentRecipe?.title || "Select a recipe:"}</h2>
-            </div>
-            <div style={{ width: "100%" }} />
-          </div>
-          <div
+          <CardHeader title="recipe book" />
+          <Paper
+            elevation={0}
             style={{
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
+              alignItems: "center",
+              padding: "8px 16px",
+              whiteSpace: "nowrap",
             }}
           >
-            {/* <span>{currentRecipe?.title || "Select a recipe:"}</span>  */}
-            <div style={{ width: "100%" }} />
+            <InputBase
+              sx={{ ml: 1, flex: 1, width: "100%" }}
+              placeholder={currentRecipe?.title || "Search for a recipe"}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              onKeyUp={(e) => {
+                if (e.key === "Enter") {
+                  getRecipe(search);
+                }
+              }}
+              inputProps={{ "aria-label": "search google maps" }}
+            />
             <Tooltip title="Search for other recipes!">
-              <IconButton id="recipe-select" href="/" style={{ color: "" }}>
-                <Search />
+              <IconButton
+                type="button"
+                sx={{ p: "10px" }}
+                aria-label="search"
+                onClick={() => {
+                  getRecipe(search);
+                }}
+                disabled={loading}
+              >
+                {loading ? <Timelapse /> : <Search />}
               </IconButton>
             </Tooltip>
+
             {!loggedIn ? (
               <Tooltip title="Log In or Create Account To Save This Recipe">
                 <IconButton
@@ -106,14 +129,23 @@ export const Recipes = () => {
               </Tooltip>
             ) : (
               <>
-                <Tooltip title={!error ? "Save recipe" : error}>
+                <Tooltip
+                  title={
+                    !error && !recipeExists
+                      ? "Save recipe"
+                      : "Recipe exists in recipe book"
+                  }
+                >
                   <IconButton
-                    id="recipe-select"
-                    disabled={!loggedIn}
-                    onClick={() => addToRecipeBook()}
-                    style={{ color: "" }}
+                    id="recipe-save"
+                    disabled={recipeExists}
+                    onClick={() => {
+                      addToRecipeBook();
+                      setRecipeExists(checkExists());
+                    }}
+                    sx={{ color: !recipeExists ? "#FFDF82" : "#407B50" }}
                   >
-                    <BookmarkAdd />
+                    {recipeExists ? <BookmarkAdd /> : <BookmarkAddOutlined />}
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Recipe Book">
@@ -124,7 +156,7 @@ export const Recipes = () => {
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                     onClick={handleClick}
-                    style={{ color: "" }}
+                    style={{ color: "#B54E4B" }}
                   >
                     <Book />
                   </IconButton>
@@ -148,10 +180,17 @@ export const Recipes = () => {
                 );
               })}
             </Menu>
-          </div>
-          <hr />
+          </Paper>
+          <hr style={{ marginBlockStart: "0", marginBlockEnd: "0" }} />
+          <AdBox />
+          {error && (
+            <p className="chefAiCardContent" style={{ color: "red" }}>
+              Sorry, something's not right, try again...
+            </p>
+          )}
           {currentRecipe?.ingredients && (
             <div className="chefAiCardContent">
+              <h2>{currentRecipe?.title}</h2>
               <h3>Ingredients:</h3>
 
               <div
@@ -183,19 +222,6 @@ export const Recipes = () => {
               })}
             </div>
           )}
-          {/* {currentRecipe?.img && (
-            <div
-              style={{
-                height: "400px",
-                overflow: "hidden",
-                backgroundRepeat: "no-repeat",
-                backgroundAttachment: "scroll",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                backgroundImage: `url(${currentRecipe?.img})`,
-              }}
-            />
-          )} */}
         </div>
       }
     </div>

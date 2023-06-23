@@ -1,29 +1,15 @@
-/* input[type="text"] {
-  height: 34px;
-  font-size: larg;
-  width: 50%;
-  border-radius: 8px 0px 0 8px;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-}
-input[type="button"] {
-  height: 38px;
-  width: 40%;
-  padding: 0;
-  font-weight: 700;
-  background: #51cb20;
-  color: white;
-  border: none;
-  border-radius: 0 8px 8px 0;
-  cursor: pointer;
-} */
 ol {
   margin: 0px 0 0 0;
   padding: 12px 38px;
+  font-family: "Lato", sans-serif !important;
 }
 p {
   font-size: medium;
+  font-family: "Lato", sans-serif !important;
 }
 .chefAiCredentials {
+  font-family: "Lato", sans-serif !important;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -41,22 +27,27 @@ p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #FDF7FF;
+  background-color: #faf4e5ac;
 }
 
 .chefAiCard {
   background-color: rgb(255, 255, 255);
   color: #000000cc;
-  width: 700px;
+  width: 900px;
   overflow: hidden;
   margin: 12px 18px;
   border-radius: 24px;
   /* border: 2px solid #3a5683; */
   box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.45);
   animation: appear 1s;
+  font-family: "Lato", sans-serif !important;
+
+  margin-bottom: 80px;
 }
 
 .chefAICardHeader {
+  font-family: "Lato", sans-serif !important;
+
   display: flex;
   flex-direction: row;
   /* border-bottom: 1px solid rgb(0,0,0); */
@@ -64,37 +55,62 @@ p {
   background-color: #d5cabdb1;
   border-radius: 24px 24px 0 0;
   padding: 18px;
-  background-image: url('../public/Modern.jpeg');
+  background-image: url("../public/rusticbuffet2.jpeg");
   background-repeat: no-repeat;
   background-attachment: local;
-  background-position:center;
+  background-position: center;
 }
 .chefAiCardContent {
   padding: 12px 16px;
+  font-family: "Lato", sans-serif !important;
+}
+.chefAiCardContent h2 {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Lato", sans-serif !important;
 }
 
 .chefAiIngredientsHeader {
   display: flex;
+  font-family: "Lato", sans-serif !important;
+
   /* width: 100%; */
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   padding: 18px;
-  background-image: url('../public/Modern.jpeg');
+  background-image: url("../public/Modern.jpeg");
   background-repeat: no-repeat;
   background-attachment: local;
-  background-position:center;
+  background-position: center;
+  font-family: "Lato", sans-serif !important;
+}
+
+.aiText {
+  font-weight: 800;
+  color: #9fafa1;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+}
+.chefAiAppBar {
+  background-color: #BC4846;
+}
+a {
+  color: #407b50;
+  text-decoration: none;
+  font-family: "Lato", sans-serif !important;
 }
 h1 {
-  color: #6B5974;
+  color: #3c4a3e;
+  font-family: "Lato", sans-serif !important;
 }
 h2 {
-  color: #FFFFFF; /*#A0AACE;*/
+  color: #ffffff; /*#A0AACE;*/
   font-size: larger;
+  font-family: "Lato", sans-serif !important;
 }
 h3 {
   color: #424656; /*#A0AACE;*/
   font-size: medium;
+  font-family: "Lato", sans-serif !important;
 }
 .ingredientsItem {
   width: calc(50% - 32px);
@@ -129,7 +145,11 @@ p {
   min-width: 100%;
 }
 @keyframes appear {
-  0%   {opacity: 0}
+  0% {
+    opacity: 0;
+  }
   /* 50%  {opacity: 0.5} */
-  100% {opacity: 1}
+  100% {
+    opacity: 1;
+  }
 }

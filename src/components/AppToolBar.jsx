@@ -1,11 +1,12 @@
 import {
   AccountBox,
+  Article,
   Book,
   Kitchen,
   Login,
   Logout,
-  MenuOpen,
   MenuRounded,
+  Policy,
   QuestionAnswer,
 } from "@mui/icons-material";
 import {
@@ -23,7 +24,7 @@ import useUserStore from "../state/userState";
 
 export const AppToolBar = () => {
   const { loggedIn, logOut, currentUser } = useUserStore();
-  const { recipeBook, setRecipeBook } = useRecipeStore();
+  const { recipeBook, setRecipeBook, clearError } = useRecipeStore();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -34,18 +35,9 @@ export const AppToolBar = () => {
   };
   return (
     <AppBar position="fixed">
-      <Toolbar style={{ background: "#D5CABD" }}>
-        {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton> */}
+      <Toolbar className="chefAiAppBar">
         <Avatar
-          src="./chefAi.jpg"
+          src="/chefAi.jpg"
           style={{ cursor: "pointer", marginRight: "8px" }}
         />
         <Typography
@@ -54,13 +46,15 @@ export const AppToolBar = () => {
           }}
           variant="h6"
           component="div"
-          sx={{ flexGrow: 1, cursor: "pointer" }}
+          sx={{
+            flexGrow: 1,
+            cursor: "pointer",
+          }}
         >
           Chef
-          <span style={{ fontWeight: "800", color: "#6B5974" }}>AI</span>
+          <span className="aiText">AI</span>
         </Typography>
-        <div style={{ width: "100%" }} />
-        <IconButton sx={{ backgroundColor: "#6B5974" }} onClick={handleClick}>
+        <IconButton onClick={handleClick}>
           <MenuRounded sx={{ color: "white" }} />
         </IconButton>
         {loggedIn ? (
@@ -91,7 +85,10 @@ export const AppToolBar = () => {
             <MenuItem
               disabled={recipeBook.length < 1}
               onClick={() => {
-                if (recipeBook.length > 0) window.open("/recipes", "_self");
+                if (recipeBook.length > 0) {
+                  clearError();
+                  window.open("/recipes", "_self");
+                }
               }}
             >
               Recipe Book
@@ -109,6 +106,15 @@ export const AppToolBar = () => {
             </MenuItem>
             <MenuItem
               onClick={() => {
+                window.open("/blogs", "_self");
+              }}
+            >
+              Blog
+              <div style={{ width: "100%" }} />
+              <Article />
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
                 setRecipeBook([]);
                 logOut();
                 window.open("/", "_self");
@@ -117,6 +123,15 @@ export const AppToolBar = () => {
               Logout
               <div style={{ width: "100%" }} />
               <Logout />
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                window.open("/policies", "_self");
+              }}
+            >
+              Policies & Disclosures{" "}
+              <div style={{ marginLeft: "12px", width: "100%" }} />
+              <Policy />
             </MenuItem>
           </Menu>
         ) : (
@@ -131,12 +146,21 @@ export const AppToolBar = () => {
           >
             <MenuItem
               onClick={() => {
-                window.open("/about", "_self");
+                window.open("/", "_self");
               }}
             >
-              About
+              Home
               <div style={{ width: "100%" }} />
-              <QuestionAnswer />
+              <Kitchen />
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                window.open("/sign-up", "_self");
+              }}
+            >
+              Create Account
+              <div style={{ width: "100%" }} />
+              <AccountBox />
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -146,6 +170,32 @@ export const AppToolBar = () => {
               Log In
               <div style={{ width: "100%" }} />
               <Login />
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                window.open("/about", "_self");
+              }}
+            >
+              About
+              <div style={{ width: "100%" }} />
+              <QuestionAnswer />
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                window.open("/blogs", "_self");
+              }}
+            >
+              Blog
+              <div style={{ width: "100%" }} />
+              <Article />
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                window.open("/policies", "_self");
+              }}
+            >
+              Policies & Disclosures <div style={{ width: "100%" }} />
+              <Policy />
             </MenuItem>
           </Menu>
         )}
